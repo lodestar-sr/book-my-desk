@@ -20,15 +20,17 @@ const AuthProvider = ({ children }: Props) => {
   const signIn = (email: string) => {
     setSigningIn(true);
 
-    setTimeout(() => {
-      if (userData.email !== email) {
-        alert('Invalid email');
-        setUser(null);
-      } else {
-        setUser(userData);
-      }
-      setSigningIn(false);
-    }, 2000);
+    return new Promise((resolve: Function, reject: Function) => {
+      setTimeout(() => {
+        setSigningIn(false);
+        if (userData.email === email) {
+          setUser(userData);
+          resolve(userData);
+        } else {
+          reject(new Error('Invalid email'));
+        }
+      }, 2000);
+    });
   };
 
   const signOut = () => {

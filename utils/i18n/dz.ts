@@ -7,4 +7,6 @@ export default {
   msLoginText:
     'Vul je e-mailadres in waarmee je werkgever jouw account heeft aangemaakt.',
   loginInputPlaceholder: 'Ihre E-Mail-Adresse',
+  loginAlertTitle: 'Fehler',
+  loginAlertMessage: 'Ungültige E-Mail',
 };

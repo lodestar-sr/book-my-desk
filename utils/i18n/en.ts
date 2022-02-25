@@ -6,4 +6,7 @@ export default {
   orText: 'Or',
   msLoginText: 'Sign in With Microsoft',
   loginInputPlaceholder: 'Your email address',
+  loginAlertTitle: 'Error',
+  loginAlertMessage: 'Invalid email',
+  loginWithMicrosoft: 'Log in with Microsoft',
 };

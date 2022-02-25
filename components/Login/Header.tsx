@@ -1,14 +1,19 @@
 import { View } from 'native-base';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import Logo from '../shared/Logo/Logo';
-import LanguageSelector from './LanguageSelector';
+import WebLogo from '../shared/Logo/WebLogo';
+import LanguagePicker from './LanguagePicker';
 
 function Header() {
   return (
     <View style={styles.container}>
-      <Logo white style={styles.logoStyle} />
-      <LanguageSelector />
+      {Platform.OS === 'web' ? (
+        <WebLogo />
+      ) : (
+        <Logo white style={styles.logoStyle} />
+      )}
+      <LanguagePicker />
     </View>
   );
 }
@@ -16,7 +21,7 @@ function Header() {
 const styles = StyleSheet.create({
   container: {
     height: 60,
-    marginTop: 20,
+    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

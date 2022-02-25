@@ -1,20 +1,43 @@
 import Loader from '../shared/Loader';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, Button, Input, Image } from 'native-base';
-import { Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+  Platform,
+} from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../hooks/useAuth';
 
 function LoginForm() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const { signingIn, signIn }: any = useAuth();
   const { t } = useTranslation();
-
-  const handleClick = () => signIn(email);
+  const inputRef = useRef<any>();
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
   };
+
+  const handleClick = () => {
+    signIn(email).catch(() => {
+      setErrorMessage('Invalid Email!');
+      setEmail('');
+    });
+
+    dismissKeyboard();
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+
+    return () => clearInterval(timer);
+  }, [errorMessage]);
 
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
@@ -22,9 +45,9 @@ function LoginForm() {
         flex={1}
         justifyContent={'space-between'}
         paddingBottom="2"
-        paddingTop="2/6"
+        paddingTop={Platform.OS === 'web' ? 0 : '2/6'}
       >
-        <Box>
+        <Box mt={120}>
           <Box alignItems="center" mb={8}>
             <Text
               style={{ fontSize: 40, color: '#E4EFE7', fontWeight: 'bold' }}
@@ -43,17 +66,29 @@ function LoginForm() {
               {t('subtitle')}
             </Text>
           </Box>
-          <Input
-            placeholder={t('loginInputPlaceholder')}
-            size="lg"
-            variant="underlined"
-            color={'#fff'}
-            borderBottomColor="#fff"
-            placeholderTextColor={'#fff'}
-            style={{ fontWeight: 'bold', color: '#fff' }}
-            mb={2}
-            onChangeText={(text) => setEmail(text)}
-          />
+          <TouchableWithoutFeedback onPress={() => inputRef.current.focus}>
+            <Input
+              ref={inputRef}
+              placeholder={t('loginInputPlaceholder')}
+              size="lg"
+              variant="underlined"
+              color={'#fff'}
+              borderBottomColor="#fff"
+              placeholderTextColor={'#fff'}
+              style={{ fontWeight: 'bold', color: '#fff' }}
+              mb={2}
+              onChange={(e) => setEmail(e.nativeEvent.text)}
+              value={email}
+              autoFocus
+            />
+          </TouchableWithoutFeedback>
+          {errorMessage && (
+            <Text
+              style={{ color: '#B33030', paddingLeft: 10, fontWeight: 'bold' }}
+            >
+              {errorMessage}
+            </Text>
+          )}
         </Box>
 
         <Box alignItems="center">
@@ -98,7 +133,7 @@ function LoginForm() {
                   height={6}
                   source={require('../../assets/ms-logo.png')}
                 />
-                <Text style={{ fontSize: 18 }}>Sign in with microsft</Text>
+                <Text style={{ fontSize: 18 }}>Sign in With Microsoft</Text>
               </Box>
             </Button>
           </Box>

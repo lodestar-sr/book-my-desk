@@ -1,6 +1,6 @@
 import AuthProvider from './contexts/AuthContext';
 import { Box, NativeBaseProvider } from 'native-base';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import Screens from './components/Screens/Screens';
 import './utils/i18n';
 
@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     paddingTop: 0,
-    marginTop: 31,
     backgroundColor: '#140C25',
   },
 });

@@ -6,6 +6,7 @@ import Login from '../../screens/Login';
 
 function Screens() {
   const { user }: any = useAuth();
+
   return <Box style={{ flex: 1 }}>{user ? <Home /> : <Login />}</Box>;
 }
 
