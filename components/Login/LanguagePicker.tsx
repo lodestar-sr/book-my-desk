@@ -25,22 +25,7 @@ function LanguagePicker() {
   return (
     <Box minW={100} maxW="100" h={20}>
       <RNPicker
-        style={{
-          inputWeb: {
-            padding: 5,
-            color: '#fff',
-            backgroundColor: '#140C25',
-            borderWidth: 0,
-            width: 130,
-            marginTop: 20,
-            fontSize: 16,
-            marginLeft: -30,
-          },
-
-          iconContainer: {
-            marginLeft: 100,
-          },
-        }}
+        style={pickerStyle}
         value={lang}
         onValueChange={(value) => setLang(value)}
         items={langOtions}
@@ -49,5 +34,23 @@ function LanguagePicker() {
     </Box>
   );
 }
+
+const pickerStyle = {
+  inputWeb: {
+    padding: 5,
+    color: '#fff',
+    backgroundColor: '#140C25',
+    borderWidth: 0,
+    width: 130,
+    marginTop: 20,
+    fontSize: 16,
+    marginLeft: -30,
+    fontFamily: 'Open Sans',
+  },
+
+  iconContainer: {
+    marginLeft: 100,
+  },
+};
 
 export default LanguagePicker;

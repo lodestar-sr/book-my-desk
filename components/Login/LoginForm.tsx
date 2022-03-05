@@ -1,15 +1,11 @@
 import Loader from '../shared/Loader';
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Button, Input, Image } from 'native-base';
-import {
-  Text,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Alert,
-  Platform,
-} from 'react-native';
+import { TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../hooks/useAuth';
+import { useFonts } from 'expo-font';
+import styled from 'styled-components/native';
 
 function LoginForm() {
   const [email, setEmail] = useState<string>('');
@@ -17,6 +13,9 @@ function LoginForm() {
   const { signingIn, signIn }: any = useAuth();
   const { t } = useTranslation();
   const inputRef = useRef<any>();
+  const [] = useFonts({
+    'Open Sans': require('../../assets/fonts/OpenSans-Regular.ttf'),
+  });
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -49,55 +48,38 @@ function LoginForm() {
       >
         <Box mt={120}>
           <Box alignItems="center" mb={8}>
-            <Text
-              style={{ fontSize: 40, color: '#E4EFE7', fontWeight: 'bold' }}
-            >
-              {t('title')}
-            </Text>
-            <Text
-              style={{
-                color: '#D3E0EA',
-                textAlign: 'center',
-                fontSize: 15,
-                marginTop: 5,
-                fontWeight: 'bold',
-              }}
-            >
-              {t('subtitle')}
-            </Text>
+            <TitleText>{t('title')}</TitleText>
+            <DescText> {t('subtitle')}</DescText>
           </Box>
           <TouchableWithoutFeedback onPress={() => inputRef.current.focus}>
             <Input
               ref={inputRef}
               placeholder={t('loginInputPlaceholder')}
+              fontWeight="bold"
               size="lg"
               variant="underlined"
               color={'#fff'}
-              borderBottomColor="#fff"
-              placeholderTextColor={'#fff'}
-              style={{ fontWeight: 'bold', color: '#fff' }}
+              borderBottomColor="#605A6B"
+              borderBottomWidth={2}
+              style={{ fontWeight: '800', color: '#fff' }}
               mb={2}
               onChange={(e) => setEmail(e.nativeEvent.text)}
               value={email}
               autoFocus
+              fontFamily={'Open Sans'}
             />
           </TouchableWithoutFeedback>
-          {errorMessage && (
-            <Text
-              style={{ color: '#B33030', paddingLeft: 10, fontWeight: 'bold' }}
-            >
-              {errorMessage}
-            </Text>
-          )}
+          {errorMessage && <ErrorMessage> {errorMessage}</ErrorMessage>}
         </Box>
 
         <Box alignItems="center">
           <Box>
             <Button
-              height={10}
-              width={120}
+              height={12}
+              width={140}
               colorScheme="dark"
               fontWeight="bold"
+              fontFamily={'Open Sans'}
               rounded={'3xl'}
               background="#fff"
               size="lg"
@@ -106,26 +88,27 @@ function LoginForm() {
               {signingIn ? (
                 <Loader color="#000" size="small" />
               ) : (
-                t('loginButtonText')
+                <LoginButtonText>{t('loginButtonText')}</LoginButtonText>
               )}
             </Button>
           </Box>
 
-          <Box alignItems={'center'} mt={2}>
-            <Text style={{ color: '#fff' }}>{t('orText')}</Text>
+          <Box alignItems={'center'} mt={3} mb={2}>
+            <OrText>{t('orText')}</OrText>
           </Box>
 
           <Box mt={2}>
             <Button
-              width={240}
+              width={250}
               background={'#fff'}
-              rounded={'3xl'}
+              rounded={'full'}
               colorScheme="dark"
               size={'lg'}
               flexDirection="column"
               justifyContent={'space-between'}
+              paddingRight="1/2"
             >
-              <Box flexDirection={'row'}>
+              <Box flexDirection={'row'} alignItems="center" height={8}>
                 <Image
                   alt="mslogo"
                   width={6}
@@ -133,7 +116,7 @@ function LoginForm() {
                   height={6}
                   source={require('../../assets/ms-logo.png')}
                 />
-                <Text style={{ fontSize: 18 }}>Sign in With Microsoft</Text>
+                <MSLoginButtonText>Sign in With Microsoft</MSLoginButtonText>
               </Box>
             </Button>
           </Box>
@@ -142,5 +125,47 @@ function LoginForm() {
     </TouchableWithoutFeedback>
   );
 }
+
+const LoginButtonText = styled.Text`
+  font-family: 'Open Sans';
+  font-weight: 600;
+  font-size: 16px;
+`;
+
+const MSLoginButtonText = styled.Text`
+  font-size: 18px;
+  font-family: 'Open Sans';
+  font-weight: 500;
+`;
+
+const TitleText = styled.Text`
+  font-size: 30px;
+  color: #fff;
+  font-family: 'Open Sans';
+  font-weight: 500;
+`;
+
+const DescText = styled.Text`
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  margin-top: 20px;
+  font-weight: 500;
+  font-family: 'Open Sans';
+`;
+
+const ErrorMessage = styled.Text`
+  color: #b33030;
+  padding-left: 10px;
+  font-weight: bold;
+  font-family: 'Open Sans';
+`;
+
+const OrText = styled.Text`
+  color: #fff;
+  font-size: 16px;
+  font-family: 'Open Sans';
+  font-weight: 500;
+`;
 
 export default LoginForm;

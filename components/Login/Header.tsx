@@ -4,29 +4,30 @@ import { StyleSheet, Platform } from 'react-native';
 import Logo from '../shared/Logo/Logo';
 import WebLogo from '../shared/Logo/WebLogo';
 import LanguagePicker from './LanguagePicker';
+import styled from 'styled-components/native';
 
 function Header() {
   return (
-    <View style={styles.container}>
+    <Container>
       {Platform.OS === 'web' ? (
         <WebLogo />
       ) : (
         <Logo white style={styles.logoStyle} />
       )}
       <LanguagePicker />
-    </View>
+    </Container>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height: 60,
-    marginTop: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
+const Container = styled.View`
+  height: 60px;
+  margin-top: 10px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
 
+const styles = StyleSheet.create({
   logoStyle: {
     marginBottom: 20,
   },

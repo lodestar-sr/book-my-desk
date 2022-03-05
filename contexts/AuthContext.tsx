@@ -3,18 +3,8 @@ import userData from '../DATA.json';
 
 export const AuthContext = createContext({});
 
-// Prop types
-interface Props {
-  children: React.ReactNode;
-}
-
-// user type
-interface User {
-  email?: string;
-}
-
-const AuthProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<User | null>(null);
+const AuthProvider = ({ children }: any) => {
+  const [user, setUser] = useState<any>(null);
   const [signingIn, setSigningIn] = useState<any>(false);
 
   const signIn = (email: string) => {
